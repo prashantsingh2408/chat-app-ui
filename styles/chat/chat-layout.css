@@ -1,0 +1,28 @@
+/* Chat section layout styles */
+#chat-section {
+    display: flex;
+    flex-direction: column;
+}
+
+#content-wrapper {
+    max-height: none;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Mobile layout adjustments */
+@media (max-width: 1023px) {
+    #output-section {
+        transition: min-height 0.3s ease-in-out;
+    }
+    
+    #content-wrapper.max-h-0 {
+        max-height: 0;
+        opacity: 0;
+    }
+    
+    #content-wrapper {
+        max-height: 1000px;
+    }
+}

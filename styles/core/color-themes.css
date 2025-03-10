@@ -1,0 +1,230 @@
+/* themes.css */
+.theme-colors {
+    /* Dark themes */
+    --dark-primary: #000000;
+    --dark-secondary: #ffffff;
+    --dark-accent: #333333;
+    /* Cool colors */
+    --blue: #3b82f6;
+    --blue-dark: #2563eb;
+    --blue-light: #bfdbfe;
+    --ocean: #00b4d8;
+    --ocean-dark: #0077b6;
+    --ocean-light: #90e0ef;
+    --purple: #9f7aea;
+    --purple-dark: #805ad5;
+    --purple-light: #d6bcfa;
+    /* Warm colors */
+    --sunset: #ed8936;
+    --sunset-dark: #dd6b20;
+    --sunset-light: #fbd38d;
+    --rose: #e11d48;
+    --rose-dark: #be123c;
+    --rose-light: #fecdd3;
+    --forest: #2d6a4f;
+    --forest-dark: #1b4332;
+    --forest-light: #95d5b2;
+}
+
+[data-theme="dark"] {
+    --bg-color: #000000;
+    --bg-color-rgb: 0, 0, 0;
+    --text-color: var(--dark-secondary);
+    --accent-color: var(--dark-secondary);
+    --accent-dark: var(--dark-primary);
+    --accent-light: var(--dark-accent);
+    --border-color: var(--dark-accent);
+}
+
+[data-theme="blue"] {
+    --accent-color: var(--blue);
+    --accent-dark: var(--blue-dark);
+    --accent-light: var(--blue-light);
+}
+
+.theme-dark {
+    --accent-color: #ffffff;      /* Pure white */
+    --accent-dark: #000000;       /* Pure black */
+    --accent-light: #1a1a1a;      /* Very dark gray */
+    --bg-color: #000000;          /* Pure black */
+    --bg-color-rgb: 0, 0, 0;
+    --text-color: #ffffff;        /* Pure white */
+    --hover-color: #cccccc;       /* Light gray */
+    --border-color: #333333;      /* Dark gray */
+    --secondary-text: #999999;    /* Light gray */
+}
+
+.theme-green {
+    --accent-color: #059669;      /* Strong green */
+    --accent-dark: #047857;       /* Dark green */
+    --accent-light: #d1fae5;      /* Light green */
+    --bg-color: #ffffff;          /* Pure white */
+    --text-color: #1f2937;        /* Dark gray */
+    --hover-color: #10b981;       /* Medium green */
+    --border-color: #e5e7eb;      /* Light gray */
+    --secondary-text: #4b5563;    /* Medium gray */
+}
+
+.theme-blue {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #3b82f6;      /* Vibrant blue */
+    --accent-dark: #2563eb;       /* Deep blue */
+    --accent-light: #bfdbfe;      /* Soft blue */
+    --border-color: #e5e7eb;      /* Light gray */
+    --hover-color: #60a5fa;       /* Light blue */
+    --secondary-text: #4b5563;    /* Medium gray */
+}
+
+[data-theme="dark-2"] {
+    --bg-color: #ffffff;          /* White background */
+    --text-color: #000000;        /* Pure black text */
+    --accent-color: #000000;      /* Black accent */
+    --accent-dark: #333333;       /* Dark gray for contrast */
+    --accent-light: #666666;      /* Medium gray for light accents */
+    --border-color: #e5e5e5;      /* Light gray border for subtlety */
+    --hover-color: #333333;       /* Dark gray for hover */
+    --secondary-text: #444444;    /* Dark gray for secondary text */
+}
+
+[data-theme="purple"] {
+    --bg-color: #ffffff;          /* White background */
+    --text-color: #4a5568;        /* Dark gray text */
+    --accent-color: #9f7aea;      /* Medium purple */
+    --accent-dark: #805ad5;       /* Dark purple */
+    --accent-light: #d6bcfa;      /* Light purple */
+    --border-color: #e9d8fd;      /* Very light purple */
+    --hover-color: #805ad5;       /* Dark purple for hover */
+    --secondary-text: #6b46c1;    /* Deep purple for secondary text */
+}
+
+[data-theme="purple"].dark {
+    --bg-color: #1a202c;          /* Dark background */
+    --text-color: #f7fafc;        /* Light text */
+    --accent-color: #9f7aea;      /* Medium purple */
+    --accent-dark: #805ad5;       /* Dark purple */
+    --accent-light: #d6bcfa;      /* Light purple */
+    --border-color: #4a5568;      /* Dark border */
+    --hover-color: #b794f4;       /* Light purple for hover */
+    --secondary-text: #e9d8fd;    /* Very light purple for secondary text */
+}
+
+[data-theme="sunset"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #ed8936;      /* Sunset orange */
+    --accent-dark: #dd6b20;       /* Darker orange */
+    --accent-light: #fbd38d;      /* Light orange */
+    --border-color: #feebc8;      /* Very light orange */
+    --hover-color: #f6ad55;       /* Medium orange */
+    --secondary-text: #c05621;    /* Deep orange */
+}
+
+[data-theme="ocean"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #00b4d8;      /* Ocean blue */
+    --accent-dark: #0077b6;       /* Deep ocean */
+    --accent-light: #90e0ef;      /* Light ocean */
+    --border-color: #caf0f8;      /* Foam */
+    --hover-color: #48b2e8;       /* Sky blue */
+    --secondary-text: #023e8a;    /* Deep blue */
+}
+
+[data-theme="forest"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #2d6a4f;      /* Forest green */
+    --accent-dark: #1b4332;       /* Deep forest */
+    --accent-light: #95d5b2;      /* Light leaf */
+    --border-color: #d8f3dc;      /* Mint */
+    --hover-color: #40916c;       /* Medium forest */
+    --secondary-text: #081c15;    /* Dark forest */
+}
+
+[data-theme="rose"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #e11d48;      /* Rose red */
+    --accent-dark: #be123c;       /* Dark rose */
+    --accent-light: #fecdd3;      /* Light pink */
+    --border-color: #ffe4e6;      /* Soft pink */
+    --hover-color: #fb7185;       /* Medium pink */
+    --secondary-text: #9f1239;    /* Deep rose */
+}
+
+[data-theme="midnight"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #6b46c1;      /* Deep purple */
+    --accent-dark: #553c9a;       /* Darker purple */
+    --accent-light: #e9d8fd;      /* Light purple */
+    --border-color: #d6bcfa;      /* Soft purple */
+    --hover-color: #805ad5;       /* Medium purple */
+    --secondary-text: #44337a;    /* Dark purple */
+}
+
+[data-theme="coral"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #ff6b6b;      /* Coral red */
+    --accent-dark: #f03e3e;       /* Dark coral */
+    --accent-light: #ffe3e3;      /* Light coral */
+    --border-color: #ffc9c9;      /* Soft coral */
+    --hover-color: #ff8787;       /* Medium coral */
+    --secondary-text: #c92a2a;    /* Deep coral */
+}
+
+[data-theme="mint"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #34d399;      /* Mint green */
+    --accent-dark: #059669;       /* Dark mint */
+    --accent-light: #a7f3d0;      /* Light mint */
+    --border-color: #d1fae5;      /* Soft mint */
+    --hover-color: #6ee7b7;       /* Medium mint */
+    --secondary-text: #047857;    /* Deep mint */
+}
+
+[data-theme="amber"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #f59e0b;      /* Amber */
+    --accent-dark: #d97706;       /* Dark amber */
+    --accent-light: #fde68a;      /* Light amber */
+    --border-color: #fef3c7;      /* Soft amber */
+    --hover-color: #fbbf24;       /* Medium amber */
+    --secondary-text: #b45309;    /* Deep amber */
+}
+
+[data-theme="nordic"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #00b4d8;      /* Ocean blue */
+    --accent-dark: #0077b6;       /* Deep ocean */
+    --accent-light: #90e0ef;      /* Light ocean */
+}
+
+[data-theme="autumn"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #d35400;      /* Burnt orange */
+    --accent-dark: #a04000;       /* Dark orange */
+    --accent-light: #ffceb6;      /* Light orange */
+}
+
+[data-theme="sakura"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #ff69b4;      /* Pink */
+    --accent-dark: #db4d8c;       /* Dark pink */
+    --accent-light: #ffd1e7;      /* Light pink */
+}
+
+[data-theme="cyber"] {
+    --bg-color: #ffffff;
+    --text-color: #2d3748;
+    --accent-color: #00ff9d;      /* Neon green */
+    --accent-dark: #00cc7e;       /* Dark neon green */
+    --accent-light: #b3ffd9;      /* Light neon green */
+}

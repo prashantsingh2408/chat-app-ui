@@ -1,0 +1,27 @@
+/* base.css */
+
+/* uncomment, if color transition neet to change smoothly */
+/* * {
+    transition: background-color 2s cubic-bezier(0.4, 0, 0.2, 1),
+                color 2s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+} */
+
+:root {
+    /* Light theme (default) */
+    --accent-color: #000000;      /* Pure black */
+    --accent-dark: #1a1a1a;       /* Very dark gray */
+    --accent-light: #f5f5f5;      /* Very light gray */
+    --bg-color: #ffffff;          /* Pure white */
+    --bg-color-rgb: 255, 255, 255;
+    --text-color: #000000;        /* Pure black */
+    --hover-color: #333333;       /* Dark gray */
+    --border-color: #e5e5e5;      /* Light gray */
+    --secondary-text: #666666;    /* Medium gray */
+}
+
+.text-muted {
+    color: var(--secondary-text);
+}

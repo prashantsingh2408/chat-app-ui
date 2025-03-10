@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hackathon Circle</title>
+        
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        
+        <!-- Core CSS -->
+        <script src="js/core/tailwind-config.js"></script>
+        <link rel="stylesheet" href="styles/core/base.css">
+        <link rel="stylesheet" href="styles/core/color-themes.css">
+        <link rel="stylesheet" href="styles/core/components.css">
+        <link rel="stylesheet" href="styles/core/layout.css">
+        
+        <!-- Chat-specific styles -->
+        <link rel="stylesheet" href="styles/chat/chat.css">
+        <link rel="stylesheet" href="styles/chat/chat-layout.css">
+        
+        <!-- Chat-specific -->
+        <script type="module">
+            import { toggleMaximize } from 'js/chat/ui-controls.js';
+            window.toggleMaximize = toggleMaximize;
+        </script>
+
+        <!-- Core JS -->
+        <script type="module" src="js/core/main.js"></script>
+        <script type="module" src="js/core/ui.js"></script>
+    
+    </head>
+<body class="bg-[var(--bg-color)] font-sans">
+    <!-- Navbar -->
+    <nav class="bg-[var(--bg-color)] shadow-lg fixed w-full">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center space-x-2">
+                        <i class="fas fa-comments text-[var(--accent-color)] text-2xl"></i>
+                        <span class="font-bold text-xl text-[var(--text-color)]">Chat UI/UX</span>
+                        <!-- Info icon with popup -->
+                        <a href="#" onclick="togglePopup(event)" class="text-[var(--text-color)] hover:text-[var(--accent-color)] transition duration-300 ml-2 relative">
+                            <i class="fas fa-info-circle"></i>
+                            <div id="info-popup" 
+                                class="hidden absolute left-0 mt-2 w-64 p-4 bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg shadow-lg z-50">
+                                <h3 class="font-bold mb-2">Chat UI/UX Demo</h3>
+                                <ul class="text-sm list-disc pl-4">
+                                    <li>Responsive</li>
+                                    <li>Chatbot section</li>
+                                    <li>Content/Canvas Section</li>
+                                    <li>Mobile Toggle Button</li>
+                                    <li>Compitible with color themeing</li>
+                                    <li>Js for working chat and content</li>
+                                </ul>
+                            </div>
+                        </a>
+                </div>
+             
+                <!-- Navigation Menu -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- <a href="#about" class="nav-link px-3 py-2 rounded transition duration-300">About</a> -->
+                </div>
+
+                   <!-- Center Theme Toggle -->
+                   <div class="hidden md:flex items-center space-x-3">
+                    <div class="relative">
+                    <button 
+                            onclick="toggleThemeDropdown()"
+                        class="theme-btn w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                            style="border-color: var(--text-color)">
+                            <i class="fas fa-palette text-xl text-[var(--text-color)]"></i>
+                        </button>
+                        
+                        <!-- Theme Dropdown -->
+                        <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[var(--bg-color)] border border-[var(--border-color)] z-50">
+                            <!-- Auto Theme Option (First Group) -->
+                            <div class="theme-group">
+                                <div class="theme-group-title">Auto Mode</div>
+                                <button onclick="applyTheme('auto')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-sync-alt w-8"></i>
+                                    <span>Auto Theme</span>
+                                </button>
+                            </div>
+
+                            <!-- Separator -->
+                            <div class="border-b border-[var(--border-color)]"></div>
+
+                            <!-- Rest of your theme groups -->
+                            <div class="theme-group">
+                                <div class="theme-group-title">Dark Themes</div>
+                                <button onclick="applyTheme('dark')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-moon w-8"></i>
+                                    <span>Dark Theme</span>
+                                </button>
+                                <button onclick="applyTheme('dark-2')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-circle w-8"></i>
+                                    <span>Dark Theme 2</span>
+                                </button>
+                            </div>
+                            
+                            <div class="theme-group">
+                                <div class="theme-group-title">Cool Colors</div>
+                                <button onclick="applyTheme('blue')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-water w-8"></i>
+                                    <span>Blue Theme</span>
+                                </button>
+                                <button onclick="applyTheme('ocean')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-wave-square w-8"></i>
+                                    <span>Ocean Theme</span>
+                                </button>
+                                <button onclick="applyTheme('purple')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-gem w-8"></i>
+                                    <span>Purple Theme</span>
+                                </button>
+                            </div>
+                            
+                            <div class="theme-group">
+                                <div class="theme-group-title">Warm Colors</div>
+                                <button onclick="applyTheme('sunset')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-sun w-8"></i>
+                                    <span>Sunset Theme</span>
+                                </button>
+                                <button onclick="applyTheme('rose')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-fire w-8"></i>
+                                    <span>Rose Theme</span>
+                                </button>
+                                <button onclick="applyTheme('forest')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-tree w-8"></i>
+                                    <span>Forest Theme</span>
+                                </button>
+                            </div>
+
+                            <!-- Special Colors section in theme dropdown -->
+                            <div class="theme-group">
+                                <div class="theme-group-title">Special Colors</div>
+                                <button onclick="applyTheme('midnight')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-star w-8"></i>
+                                    <span>Midnight Theme</span>
+                                </button>
+                                <button onclick="applyTheme('coral')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-fish w-8"></i>
+                                    <span>Coral Theme</span>
+                                </button>
+                                <button onclick="applyTheme('mint')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-seedling w-8"></i>
+                                    <span>Mint Theme</span>
+                                </button>
+                                <button onclick="applyTheme('amber')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-certificate w-8"></i>
+                                    <span>Amber Theme</span>
+                                </button>
+                            </div>
+
+                            <!-- Add this new group in the theme dropdown -->
+                            <div class="theme-group">
+                                <div class="theme-group-title">Effects</div>
+                                <button onclick="toggleRainEffect()" type="button" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-cloud-rain w-8"></i>
+                                    <span>Rain Effect</span>
+                                    <i class="fas fa-check ml-auto rain-status hidden"></i>
+                                </button>
+                            </div>
+
+                            <!-- Add this new group in the theme dropdown -->
+                            <div class="theme-group">
+                                <div class="theme-group-title">Seasonal Themes</div>
+                                <button onclick="applyTheme('nordic')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-snowflake w-8"></i>
+                                    <span>Nordic Theme</span>
+                                </button>
+                                <button onclick="applyTheme('sakura')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-flower w-8"></i>
+                                    <span>Sakura Theme</span>
+                                </button>
+                                <button onclick="applyTheme('cyber')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-microchip w-8"></i>
+                                    <span>Cyber Theme</span>
+                                </button>
+                                <button onclick="applyTheme('autumn')" class="theme-option w-full px-4 py-2 text-left hover:bg-[var(--accent-light)] flex items-center">
+                                    <i class="fas fa-leaf w-8"></i>
+                                    <span>Autumn Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMenu()" class="mobile-menu-btn p-2 rounded-lg transition-all duration-300">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-[var(--bg-color)]">
+            <!-- Theme toggles for mobile -->
+            <div class="flex flex-wrap justify-center gap-3 py-4 border-b border-[var(--border-color)]">
+                <!-- Auto Theme -->
+                <button onclick="applyTheme('auto')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-sync-alt text-xl"></i>
+                </button>
+                
+                <!-- Dark Themes -->
+                <button onclick="applyTheme('dark')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-moon text-xl"></i>
+                </button>
+                <button onclick="applyTheme('dark-2')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var (--text-color)">
+                    <i class="fas fa-circle text-xl"></i>
+                </button>
+
+                <!-- Cool Colors -->
+                <button onclick="applyTheme('blue')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-water text-xl"></i>
+                </button>
+                <button onclick="applyTheme('ocean')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-wave-square text-xl"></i>
+                </button>
+                <button onclick="applyTheme('purple')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-gem text-xl"></i>
+                </button>
+
+                <!-- Warm Colors -->
+                <button onclick="applyTheme('sunset')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-sun text-xl"></i>
+                </button>
+                <button onclick="applyTheme('rose')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-fire text-xl"></i>
+                </button>
+                <button onclick="applyTheme('forest')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-tree text-xl"></i>
+                </button>
+
+                <!-- Special Colors -->
+                <button onclick="applyTheme('midnight')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-star text-xl"></i>
+                </button>
+                <button onclick="applyTheme('coral')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-fish text-xl"></i>
+                </button>
+                <button onclick="applyTheme('mint')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-seedling text-xl"></i>
+                </button>
+                <button onclick="applyTheme('amber')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-certificate text-xl"></i>
+                </button>
+
+                <!-- Seasonal Themes -->
+                <button onclick="applyTheme('nordic')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-snowflake text-xl"></i>
+                </button>
+                <button onclick="applyTheme('sakura')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-fan text-xl"></i>
+                </button>
+                <button onclick="applyTheme('cyber')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-microchip text-xl"></i>
+                </button>
+                <button onclick="applyTheme('autumn')"
+                    class="theme-btn w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)">
+                    <i class="fas fa-leaf text-xl"></i>
+                </button>
+            </div>
+            <!-- Mobile menu items -->
+            <div class="py-2">
+                <a href="#about" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">About</a>
+                <a href="#new-member" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">Join</a>
+                <a href="#ideation-board" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">Ideation</a>
+                <a href="#members" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">Members</a>
+                <a href="#hackathons" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">Hackathons</a>
+                <a href="#labs" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">Labs</a>
+                <a href="#communication-channels" class="block text-[var(--text-color)] hover:text-[var(--accent-color)] px-4 py-2">Connect</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chatbot
+        on left there is chat section
+        on right there is content/canvas/output section
+    -->
+    <section class="py-32 bg-[var(--bg-color)] text-[var(--text-color)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row h-[36rem] bg-[var(--content-bg-color)] rounded-lg shadow-lg overflow-hidden" id="chat-container">
+                <!-- Left: Chat Section (70% on desktop, 100% on mobile) -->
+                <div class="w-full lg:w-[70%] border-r border-[var(--border-color)] flex flex-col order-2 lg:order-1" id="chat-section">
+                    <!-- Add maximize button -->
+                    <div class="flex justify-between items-center p-2 border-b border-[var(--border-color)]">
+                        <span class="font-semibold">Chat</span>
+                        <button onclick="toggleMaximize('chat')" class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                        <!-- Chat messages -->
+                        <div class="bg-[var(--chat-bg-color)] p-3 rounded-lg max-w-xs">
+                            <p class="text-sm text-[var(--chat-text-color)]">Hello! How can I help you today?</p>
+                        </div>
+                        <div class="bg-[var(--user-chat-bg-color)] p-3 rounded-lg max-w-xs ml-auto">
+                            <p class="text-sm text-[var(--user-chat-text-color)]">I need help with my project.</p>
+                        </div>
+                        <div class="bg-[var(--chat-bg-color)] p-3 rounded-lg max-w-xs">
+                            <p class="text-sm text-[var(--chat-text-color)]">I'd be happy to help! What kind of project are you working on?</p>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-[var(--border-color)]">
+                        <form class="flex items-end space-x-2" onsubmit="return false;">
+                            <textarea class="flex-1 border border-[var(--border-color)] rounded-lg p-2 focus:ring-2 focus:ring-[var(--accent-color)] focus:border-[var(--accent-color)] outline-none resize-none" rows="1" placeholder="Type your message here..."></textarea>
+                            <button type="submit" class="bg-[var(--button-bg-color)] text-[var(--button-text-color)] p-3 rounded-lg hover:bg-[var(--button-hover-bg-color)] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Right: Content/Canvas/Output Section -->
+                <div class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col p-4 overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0" id="output-section">
+                    <!-- Add maximize button -->
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-semibold">Content</span>
+                        <div class="flex gap-2">
+                            <button id="mobile-toggle" class="lg:hidden bg-[var(--toggle-bg-color)] hover:bg-[var(--toggle-hover-bg-color)] p-2 rounded">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                            <button onclick="toggleMaximize('content')" class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Content Wrapper - Add this div -->
+                    <div id="content-wrapper" class="space-y-4 transition-all duration-300">
+                        <div class="bg-[var(--content-bg-color)] rounded-lg shadow p-4 mb-4">
+                            <h2 class="text-lg font-semibold text-[var(--content-text-color)] mb-3">Content Canvas</h2>
+                            <div class="border-2 border-dashed border-[var(--border-color)] rounded-lg h-40 flex items-center justify-center">
+                                <p class="text-[var(--content-placeholder-color)]">Output will appear here</p>
+                            </div>
+                        </div>
+                        <div class="bg-[var(--content-bg-color)] rounded-lg shadow p-4">
+                            <h2 class="text-lg font-semibold text-[var(--content-text-color)] mb-3">Additional Information</h2>
+                            <p class="text-[var(--content-secondary-text-color)] text-sm">This area displays output generated from the chat conversation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-code text-[var(--accent-light)] text-2xl"></i>
+                        <span class="font-bold text-xl text-white">Hackathon Circle</span>
+                    </div>
+                    <p class="text-gray-400">Building the future together through innovation and collaboration.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg mb-4 text-white">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">About</a></li>
+                        <li><a href="#new-member" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">Join Us</a></li>
+                        <li><a href="#ideation-board" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">Ideation</a></li>
+                        <li><a href="#hackathons" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">Hackathons</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg mb-4 text-white">Community</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#members" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">Members</a></li>
+                        <li><a href="#communication-channels" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">Connect</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg mb-4 text-white">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[var(--accent-light)] transition duration-300">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 py-6 text-center text-gray-400">
+                <p>&copy; 2024 Hackathon Circle. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="fixed bottom-8 right-8 p-4 bg-[var(--accent-color)] text-[var(--bg-color)] rounded-full shadow-lg hover:bg-[var(--accent-dark)] transition duration-300 hidden md:block">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+   <!-- Add GSAP CDN before your closing body tag -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+   <!-- Add Three.js library before closing body tag -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+   <!-- Chat JS -->
+   <script type="module" src="js/chat/chat.js"></script>
+   <script src="js/info-popup.js"></script>
+</body>
+</html>
