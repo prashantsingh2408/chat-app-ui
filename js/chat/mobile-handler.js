@@ -2,31 +2,33 @@
 export function initializeMobileView(elements) {
     if (elements.mobileToggleBtn && elements.contentWrapper) {
         let isContentVisible = true;
-        const toggleIcon = elements.mobileToggleBtn.querySelector('i');
+        const $toggleIcon = $(elements.mobileToggleBtn).find('i');
         
         // Handle visibility state
         const handleVisibilityState = (isMaximized) => {
             if (isMaximized) {
-                elements.mobileToggleBtn.style.display = 'none';
-                elements.contentWrapper.style.maxHeight = '';
-                elements.contentWrapper.style.opacity = '1';
-                elements.contentWrapper.dataset.previousState = isContentVisible ? 'visible' : 'hidden';
+                $(elements.mobileToggleBtn).hide();
+                $(elements.contentWrapper).css({
+                    'maxHeight': '',
+                    'opacity': '1'
+                });
+                $(elements.contentWrapper).data('previousState', isContentVisible ? 'visible' : 'hidden');
             } else {
-                elements.mobileToggleBtn.style.display = '';
+                $(elements.mobileToggleBtn).show();
                 // Restore previous state if it exists
-                if (elements.contentWrapper.dataset.previousState) {
-                    isContentVisible = elements.contentWrapper.dataset.previousState === 'visible';
-                    delete elements.contentWrapper.dataset.previousState;
+                if ($(elements.contentWrapper).data('previousState')) {
+                    isContentVisible = $(elements.contentWrapper).data('previousState') === 'visible';
+                    $(elements.contentWrapper).removeData('previousState');
                 }
-                updateMobileView(elements, isContentVisible, toggleIcon);
+                updateMobileView(elements, isContentVisible, $toggleIcon);
             }
         };
 
         // Observe maximize state changes
         const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
+            $.each(mutations, (i, mutation) => {
                 if (mutation.attributeName === 'class') {
-                    const isMaximized = mutation.target.classList.contains('maximized');
+                    const isMaximized = $(mutation.target).hasClass('maximized');
                     handleVisibilityState(isMaximized);
                 }
             });
@@ -34,10 +36,10 @@ export function initializeMobileView(elements) {
 
         observer.observe(elements.outputSection, { attributes: true });
         
-        elements.mobileToggleBtn.addEventListener('click', () => {
-            if (!elements.outputSection.classList.contains('maximized')) {
+        $(elements.mobileToggleBtn).on('click', () => {
+            if (!$(elements.outputSection).hasClass('maximized')) {
                 isContentVisible = !isContentVisible;
-                updateMobileView(elements, isContentVisible, toggleIcon);
+                updateMobileView(elements, isContentVisible, $toggleIcon);
             }
         });
     }
@@ -47,19 +49,24 @@ export function initializeMobileView(elements) {
     mediaQuery.addListener(() => handleMediaChange(mediaQuery, elements));
 }
 
-function updateMobileView(elements, isContentVisible, toggleIcon) {
-    if (!elements.outputSection.classList.contains('maximized')) {
+function updateMobileView(elements, isContentVisible, $toggleIcon) {
+    if (!$(elements.outputSection).hasClass('maximized')) {
         // Update content visibility
-        elements.contentWrapper.style.maxHeight = isContentVisible ? `${elements.contentWrapper.scrollHeight}px` : '0';
-        elements.contentWrapper.style.opacity = isContentVisible ? '1' : '0';
+        $(elements.contentWrapper).css({
+            'maxHeight': isContentVisible ? `${$(elements.contentWrapper)[0].scrollHeight}px` : '0',
+            'opacity': isContentVisible ? '1' : '0'
+        });
         
         // Update section height
-        elements.outputSection.classList.toggle('min-h-[200px]', isContentVisible);
-        elements.outputSection.classList.toggle('min-h-[60px]', !isContentVisible);
+        if (isContentVisible) {
+            $(elements.outputSection).addClass('min-h-[200px]').removeClass('min-h-[60px]');
+        } else {
+            $(elements.outputSection).addClass('min-h-[60px]').removeClass('min-h-[200px]');
+        }
         
         // Update toggle icon
-        if (toggleIcon) {
-            toggleIcon.className = isContentVisible ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+        if ($toggleIcon.length) {
+            $toggleIcon.attr('class', isContentVisible ? 'fas fa-chevron-up' : 'fas fa-chevron-down');
         }
     }
 }
@@ -67,22 +74,23 @@ function updateMobileView(elements, isContentVisible, toggleIcon) {
 function handleMediaChange(mediaQuery, elements) {
     if (mediaQuery.matches) {
         // Reset mobile view when switching to desktop
-        elements.outputSection.classList.remove('h-screen');
-        elements.outputSection.classList.add('min-h-[200px]');
-        elements.contentWrapper.style.maxHeight = '';
-        elements.contentWrapper.style.opacity = '';
+        $(elements.outputSection).removeClass('h-screen').addClass('min-h-[200px]');
+        $(elements.contentWrapper).css({
+            'maxHeight': '',
+            'opacity': ''
+        });
     }
 }
 
 export function toggleMaximizeOnMobileView(elements) {
     const MOBILE_BREAKPOINT = 768; // Standard mobile breakpoint
-    let isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+    let isMobile = $(window).width() <= MOBILE_BREAKPOINT;
 
     // Handle proper mobile detection
     const checkMobile = () => {
         // Use both window width and touch capability check
         const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        return isTouchDevice && window.innerWidth <= MOBILE_BREAKPOINT;
+        return isTouchDevice && $(window).width() <= MOBILE_BREAKPOINT;
     };
 
     const handleViewSwitch = () => {
@@ -93,21 +101,19 @@ export function toggleMaximizeOnMobileView(elements) {
             
             if (isMobile) {
                 console.log('Mobile view activated');
-                elements.outputSection.classList.add('mobile');
-                elements.outputSection.dataset.mobile = 'true';
+                $(elements.outputSection).addClass('mobile').data('mobile', 'true');
                 toggleMaximize('content');
                 
                 // Force layout update for mobile browsers
-                elements.outputSection.style.transform = 'translateZ(0)';
+                $(elements.outputSection).css('transform', 'translateZ(0)');
             } else {
                 console.log('Desktop view activated');
-                elements.outputSection.classList.remove('mobile');
-                delete elements.outputSection.dataset.mobile;
+                $(elements.outputSection).removeClass('mobile').removeData('mobile');
                 toggleMaximize('content');
                 
                 // Add slight delay for mobile browser rendering
                 setTimeout(() => {
-                    elements.contentWrapper.style.transform = 'none';
+                    $(elements.contentWrapper).css('transform', 'none');
                 }, 100);
             }
         }
@@ -118,13 +124,13 @@ export function toggleMaximizeOnMobileView(elements) {
 
     // Add both resize and orientationchange listeners
     const debouncedResize = debounce(handleViewSwitch, 150);
-    window.addEventListener('resize', debouncedResize);
-    window.addEventListener('orientationchange', debouncedResize);
+    $(window).on('resize', debouncedResize);
+    $(window).on('orientationchange', debouncedResize);
 
     // Proper cleanup function
     return () => {
-        window.removeEventListener('resize', debouncedResize);
-        window.removeEventListener('orientationchange', debouncedResize);
+        $(window).off('resize', debouncedResize);
+        $(window).off('orientationchange', debouncedResize);
     };
 }
 

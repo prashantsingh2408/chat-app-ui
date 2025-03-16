@@ -1,180 +1,183 @@
 // UI control functionality
 export function toggleMaximize(section) {
-    const container = document.getElementById('chat-container').parentElement.parentElement;
-    const targetSection = section === 'chat' ? document.getElementById('chat-section') : document.getElementById('output-section');
-    const otherSection = section === 'chat' ? document.getElementById('output-section') : document.getElementById('chat-section');
-    const nav = document.querySelector('nav');
-    const footer = document.querySelector('footer');
-    const announcement = document.getElementById('announcement-banner');
-    const maximizeBtn = targetSection.querySelector('.maximize-btn i');
+    const $container = $('#chat-container').parent().parent();
+    const $targetSection = section === 'chat' ? $('#chat-section') : $('#output-section');
+    const $otherSection = section === 'chat' ? $('#output-section') : $('#chat-section');
+    const $nav = $('nav');
+    const $footer = $('footer');
+    const $announcement = $('#announcement-banner');
+    const $maximizeBtn = $targetSection.find('.maximize-btn i');
 
     // Store original classes and styles before maximizing
-    if (!targetSection.classList.contains('maximized')) {
+    if (!$targetSection.hasClass('maximized')) {
         // Store original classes
-        targetSection.dataset.originalClasses = targetSection.className;
-        otherSection.dataset.originalClasses = otherSection.className;
+        $targetSection.data('originalClasses', $targetSection.attr('class'));
+        $otherSection.data('originalClasses', $otherSection.attr('class'));
         // Store original styles
-        targetSection.dataset.originalStyles = targetSection.style.cssText || '';
-        otherSection.dataset.originalStyles = otherSection.style.cssText || '';
+        $targetSection.data('originalStyles', $targetSection.attr('style') || '');
+        $otherSection.data('originalStyles', $otherSection.attr('style') || '');
         // Store container state
-        container.dataset.originalStyles = container.style.cssText || '';
-        container.dataset.originalClasses = container.className;
+        $container.data('originalStyles', $container.attr('style') || '');
+        $container.data('originalClasses', $container.attr('class'));
     }
 
     // Toggle classes
-    container.classList.toggle('maximized-container');
-    const isMaximized = targetSection.classList.toggle('maximized');
+    $container.toggleClass('maximized-container');
+    const isMaximized = $targetSection.toggleClass('maximized').hasClass('maximized');
     
     // Toggle visibility of other elements
-    [nav, footer, announcement].forEach(el => {
-        if (el) {
+    $.each([$nav, $footer, $announcement], function(_, $el) {
+        if ($el.length) {
             if (isMaximized) {
-                el.dataset.previousDisplay = window.getComputedStyle(el).display;
-                el.classList.add('hidden-element');
+                $el.data('previousDisplay', $el.css('display'));
+                $el.addClass('hidden-element');
             } else {
-                el.classList.remove('hidden-element');
-                el.style.display = el.dataset.previousDisplay || 'block';
-                delete el.dataset.previousDisplay;
+                $el.removeClass('hidden-element');
+                $el.css('display', $el.data('previousDisplay') || 'block');
+                $el.removeData('previousDisplay');
             }
         }
     });
 
     // Toggle icon
-    maximizeBtn.classList.toggle('fa-expand');
-    maximizeBtn.classList.toggle('fa-compress');
+    $maximizeBtn.toggleClass('fa-expand fa-compress');
 
-    handleMaximizedView(section, targetSection);
+    handleMaximizedView(section, $targetSection);
 }
 
-function handleMaximizedView(section, targetSection) {
-    const otherSection = section === 'chat' ? document.getElementById('output-section') : document.getElementById('chat-section');
-    const existingToggleBtn = document.querySelector('.toggle-view-btn');
+function handleMaximizedView(section, $targetSection) {
+    const $otherSection = section === 'chat' ? $('#output-section') : $('#chat-section');
+    const $existingToggleBtn = $('.toggle-view-btn');
     
-    if (targetSection.classList.contains('maximized')) {
+    if ($targetSection.hasClass('maximized')) {
         // Save original flex classes
-        targetSection.dataset.originalFlex = targetSection.className.match(/lg:w-\[\d+%\]/g)?.join(' ') || '';
-        otherSection.dataset.originalFlex = otherSection.className.match(/lg:w-\[\d+%\]/g)?.join(' ') || '';
+        const originalFlex = ($targetSection.attr('class').match(/lg:w-\[\d+%\]/g) || []).join(' ');
+        const otherOriginalFlex = ($otherSection.attr('class').match(/lg:w-\[\d+%\]/g) || []).join(' ');
         
-        otherSection.style.display = 'none';
-        createToggleButton(section, targetSection, otherSection);
+        $targetSection.data('originalFlex', originalFlex);
+        $otherSection.data('originalFlex', otherOriginalFlex);
+        
+        $otherSection.hide();
+        createToggleButton(section, $targetSection, $otherSection);
     } else {
-        resetView(existingToggleBtn, targetSection, otherSection);
+        resetView($existingToggleBtn, $targetSection, $otherSection);
     }
 }
 
-function createToggleButton(section, targetSection, otherSection) {
-    let existingToggleBtn = document.querySelector('.toggle-view-btn');
-    if (existingToggleBtn) {
-        existingToggleBtn.remove();
+function createToggleButton(section, $targetSection, $otherSection) {
+    let $existingToggleBtn = $('.toggle-view-btn');
+    if ($existingToggleBtn.length) {
+        $existingToggleBtn.remove();
     }
     
-    const toggleViewBtn = document.createElement('button');
-    toggleViewBtn.className = 'toggle-view-btn';
-    toggleViewBtn.dataset.currentSection = section;
-    toggleViewBtn.dataset.initialSection = section;
-    toggleViewBtn.innerHTML = `Switch to ${section === 'chat' ? 'Output' : 'Chat'}`;
+    const $toggleViewBtn = $('<button></button>')
+        .addClass('toggle-view-btn')
+        .data('currentSection', section)
+        .data('initialSection', section)
+        .html(`Switch to ${section === 'chat' ? 'Output' : 'Chat'}`);
     
-    const switchHandler = () => {
-        const currentSection = toggleViewBtn.dataset.currentSection;
-        const initialSection = toggleViewBtn.dataset.initialSection;
+    const switchHandler = function() {
+        const currentSection = $toggleViewBtn.data('currentSection');
+        const initialSection = $toggleViewBtn.data('initialSection');
         
         // Get the correct sections based on initial maximized section
-        const currentTarget = initialSection === 'chat' ? targetSection : otherSection;
-        const currentOther = initialSection === 'chat' ? otherSection : targetSection;
+        const $currentTarget = initialSection === 'chat' ? $targetSection : $otherSection;
+        const $currentOther = initialSection === 'chat' ? $otherSection : $targetSection;
         
         if (currentSection === 'chat') {
-            currentTarget.classList.remove('maximized');
-            currentOther.classList.add('maximized');
-            currentTarget.style.display = 'none';
-            currentOther.style.display = 'flex';
-            toggleViewBtn.dataset.currentSection = 'content';
-            toggleViewBtn.innerHTML = 'Switch to Chat';
+            $currentTarget.removeClass('maximized');
+            $currentOther.addClass('maximized');
+            $currentTarget.hide();
+            $currentOther.css('display', 'flex');
+            $toggleViewBtn.data('currentSection', 'content');
+            $toggleViewBtn.html('Switch to Chat');
         } else {
-            currentOther.classList.remove('maximized');
-            currentTarget.classList.add('maximized');
-            currentOther.style.display = 'none';
-            currentTarget.style.display = 'flex';
-            toggleViewBtn.dataset.currentSection = 'chat';
-            toggleViewBtn.innerHTML = 'Switch to Output';
+            $currentOther.removeClass('maximized');
+            $currentTarget.addClass('maximized');
+            $currentOther.hide();
+            $currentTarget.css('display', 'flex');
+            $toggleViewBtn.data('currentSection', 'chat');
+            $toggleViewBtn.html('Switch to Output');
         }
         
         // Update maximize button icon
-        const visibleSection = document.querySelector('.maximized');
-        if (visibleSection) {
-            const maximizeBtn = visibleSection.querySelector('.maximize-btn i');
-            if (maximizeBtn) {
-                maximizeBtn.classList.remove('fa-expand');
-                maximizeBtn.classList.add('fa-compress');
+        const $visibleSection = $('.maximized');
+        if ($visibleSection.length) {
+            const $maximizeBtn = $visibleSection.find('.maximize-btn i');
+            if ($maximizeBtn.length) {
+                $maximizeBtn.removeClass('fa-expand').addClass('fa-compress');
             }
         }
     };
     
-    toggleViewBtn.switchHandler = switchHandler;
-    toggleViewBtn.addEventListener('click', switchHandler);
+    $toggleViewBtn.data('switchHandler', switchHandler);
+    $toggleViewBtn.on('click', switchHandler);
     
     // Add the button to a fixed position in the document body
-    document.body.appendChild(toggleViewBtn);
+    $('body').append($toggleViewBtn);
     
     // Store initial state
-    targetSection.dataset.initialMaximized = 'true';
-    otherSection.dataset.initialMaximized = 'false';
+    $targetSection.data('initialMaximized', true);
+    $otherSection.data('initialMaximized', false);
 }
 
-function resetView(existingToggleBtn, targetSection, otherSection) {
+function resetView($existingToggleBtn, $targetSection, $otherSection) {
     // Remove toggle view button
-    if (existingToggleBtn) {
-        existingToggleBtn.removeEventListener('click', existingToggleBtn.switchHandler);
-        existingToggleBtn.remove();
+    if ($existingToggleBtn.length) {
+        $existingToggleBtn.off('click', $existingToggleBtn.data('switchHandler'));
+        $existingToggleBtn.remove();
     }
     
-    const container = document.getElementById('chat-container').parentElement.parentElement;
+    const $container = $('#chat-container').parent().parent();
     
     // Restore container state
-    if (container.dataset.originalStyles) {
-        container.style.cssText = container.dataset.originalStyles;
-        delete container.dataset.originalStyles;
+    if ($container.data('originalStyles')) {
+        $container.attr('style', $container.data('originalStyles'));
+        $container.removeData('originalStyles');
     }
-    if (container.dataset.originalClasses) {
-        container.className = container.dataset.originalClasses;
-        delete container.dataset.originalClasses;
+    if ($container.data('originalClasses')) {
+        $container.attr('class', $container.data('originalClasses'));
+        $container.removeData('originalClasses');
     }
 
     // Restore sections
-    [targetSection, otherSection].forEach(section => {
+    $.each([$targetSection, $otherSection], function(_, $section) {
         // Restore original classes including flex classes
-        if (section.dataset.originalClasses) {
-            section.className = section.dataset.originalClasses;
-            delete section.dataset.originalClasses;
+        if ($section.data('originalClasses')) {
+            $section.attr('class', $section.data('originalClasses'));
+            $section.removeData('originalClasses');
         }
-        if (section.dataset.originalFlex) {
-            section.classList.add(...section.dataset.originalFlex.split(' '));
-            delete section.dataset.originalFlex;
+        if ($section.data('originalFlex')) {
+            $.each($section.data('originalFlex').split(' '), function(_, cls) {
+                $section.addClass(cls);
+            });
+            $section.removeData('originalFlex');
         }
         
         // Restore original styles
-        if (section.dataset.originalStyles) {
-            section.style.cssText = section.dataset.originalStyles;
-            delete section.dataset.originalStyles;
+        if ($section.data('originalStyles')) {
+            $section.attr('style', $section.data('originalStyles'));
+            $section.removeData('originalStyles');
         } else {
-            section.style.cssText = '';
+            $section.attr('style', '');
         }
         
         // Remove maximized state
-        section.classList.remove('maximized');
-        section.style.removeProperty('display');
+        $section.removeClass('maximized');
+        $section.css('display', '');
     });
 
     // Ensure proper display is set
-    targetSection.style.display = 'flex';
-    otherSection.style.display = 'flex';
+    $targetSection.css('display', 'flex');
+    $otherSection.css('display', 'flex');
 }
 
 export function initializeKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
+    $(document).on('keydown', function(e) {
         if (e.key === 'Escape') {
-            const maximizedElement = document.querySelector('.maximized');
-            if (maximizedElement) {
-                const section = maximizedElement.id === 'chat-section' ? 'chat' : 'content';
+            const $maximizedElement = $('.maximized');
+            if ($maximizedElement.length) {
+                const section = $maximizedElement.attr('id') === 'chat-section' ? 'chat' : 'content';
                 toggleMaximize(section);
             }
         }
@@ -183,31 +186,30 @@ export function initializeKeyboardShortcuts() {
 
 // Add resizer functionality
 export function initializeResizer() {
-    const chatSection = document.getElementById('chat-section');
-    const outputSection = document.getElementById('output-section');
+    const $chatSection = $('#chat-section');
+    const $outputSection = $('#output-section');
     
     // Create resizer element
-    const resizer = document.createElement('div');
-    resizer.className = 'resizer';
-    chatSection.appendChild(resizer);
+    const $resizer = $('<div></div>').addClass('resizer');
+    $chatSection.append($resizer);
 
     let isResizing = false;
     let startX;
     let startWidth;
     let containerWidth;
 
-    resizer.addEventListener('mousedown', (e) => {
+    $resizer.on('mousedown', function(e) {
         isResizing = true;
         startX = e.pageX;
-        startWidth = chatSection.offsetWidth;
-        containerWidth = chatSection.parentElement.offsetWidth;
-        resizer.classList.add('resizing');
+        startWidth = $chatSection.width();
+        containerWidth = $chatSection.parent().width();
+        $resizer.addClass('resizing');
         
         // Disable text selection while resizing
-        document.body.style.userSelect = 'none';
+        $('body').css('user-select', 'none');
     });
 
-    document.addEventListener('mousemove', (e) => {
+    $(document).on('mousemove', function(e) {
         if (!isResizing) return;
 
         const diffX = e.pageX - startX;
@@ -215,16 +217,16 @@ export function initializeResizer() {
         
         // Limit the width between 30% and 80%
         if (newWidth >= 30 && newWidth <= 80) {
-            chatSection.style.width = `${newWidth}%`;
-            outputSection.style.width = `${100 - newWidth}%`;
+            $chatSection.css('width', `${newWidth}%`);
+            $outputSection.css('width', `${100 - newWidth}%`);
         }
     });
 
-    document.addEventListener('mouseup', () => {
+    $(document).on('mouseup', function() {
         if (isResizing) {
             isResizing = false;
-            resizer.classList.remove('resizing');
-            document.body.style.userSelect = '';
+            $resizer.removeClass('resizing');
+            $('body').css('user-select', '');
         }
     });
 }
