@@ -15,8 +15,9 @@ function splitMessage(message) {
 // Update output sections by splitting the message and updating each section
 export function updateOutputSection(message, botResponse) {
   // Split the combined message into chat and profile (content) parts
-  const { chatMessage, contentMessage } = splitMessage(botResponse);
-  console.log(chatMessage);
+  var { chatMessage, contentMessage } = splitMessage(botResponse);
+  chatMessage = extractLastBotMessage(chatMessage);
+  console.log("chat message new",chatMessage);
   console.log(contentMessage);
   
   // Using jQuery to select elements instead of querySelector
@@ -49,4 +50,51 @@ export function addMessage(text, isUser) {
   
   // Scroll to bottom
   $chatMessages.scrollTop($chatMessages[0].scrollHeight);
+}
+
+/**
+ * Extracts the last BOT message from a chat conversation
+ * @param {string} chatContent - The chat content containing USER and BOT messages
+ * @returns {string} - The last BOT message without the "BOT:" prefix
+ */
+function extractLastBotMessage(chatContent) {
+  // First remove any </CHAT> tags that might be included
+  chatContent = chatContent.replace(/<\/CHAT>/g, '');
+  
+  // Regular expression to find all BOT messages
+  // This matches "BOT:" followed by any text until the next "USER:", "BOT:", or end of string
+  const botMessagesRegex = /BOT:\s*(.*?)(?=\s*(?:USER:|BOT:|$))/gs;
+  
+  // Find all matches of BOT messages
+  const botMessages = [...chatContent.matchAll(botMessagesRegex)];
+  
+  // If any BOT messages were found
+  if (botMessages.length > 0) {
+      // Return the last BOT message (capture group 1) without the "BOT:" prefix, trimmed
+      return cleanBotMessage(botMessages[botMessages.length - 1][1].trim());
+  }
+  
+  // Return empty string if no BOT messages found
+  return '';
+}
+
+/**
+ * Extracts and cleans the last BOT message from a chat conversation
+ * @param {string} input - Raw input that may contain a BOT message and closing CHAT tags
+ * @returns {string} - The cleaned BOT message
+ */
+function cleanBotMessage(input) {
+  // First check if this is a BOT message with the closing tag
+  if (input.includes('</CHAT>')) {
+      // Remove the closing </CHAT> tag and any surrounding whitespace
+      return input.replace(/\s*<\/CHAT>\s*$/, '').trim();
+  }
+  
+  // If input contains BOT: prefix, extract just the message part
+  if (input.startsWith('BOT:')) {
+      return input.substring(4).trim();
+  }
+  
+  // Otherwise, just return the cleaned input
+  return input.trim();
 }

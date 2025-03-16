@@ -1,7 +1,13 @@
 // Chat messaging functionality
 import { updateOutputSection,addMessage } from './output-handler.js';
 
+// var response
+var response = "";
+
 async function callChatApi(message) {
+    
+    message = (response.response || response.message || JSON.stringify(response)) + message;
+    console.log("message new ",message)
     // Add the message as a query parameter
     // const apiUrl = `http://127.0.0.1:8000/chat_content_api?user_message=${encodeURIComponent(message)}`;
     const apiUrl = `https://content-creator-chat-profile-api.vercel.app/chat_content_api?user_message=${encodeURIComponent(message)}`;
@@ -9,7 +15,7 @@ async function callChatApi(message) {
     try {
       console.log('Sending request to API:', apiUrl);
       
-      const response = await $.ajax({
+        response = await $.ajax({
         url: apiUrl,
         type: 'POST',
         headers: {
