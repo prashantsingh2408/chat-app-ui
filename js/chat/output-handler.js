@@ -6,10 +6,8 @@ function splitMessage(message) {
   const chatMatch = message.match(chatRegex);
   const contentMatch = message.match(contentRegex);
   
-  const chatMessage = chatMatch ? chatMatch[1].trim() : "";
-  const contentMessage = contentMatch ? contentMatch[1].trim() : "";
-  console.log("chatMatch:", chatMatch);
-  console.log("contentMatch:", contentMatch);
+  const chatMessage = chatMatch[0];
+  const contentMessage = contentMatch[0];
   
   return { chatMessage, contentMessage };
 }
@@ -18,29 +16,37 @@ function splitMessage(message) {
 export function updateOutputSection(message, botResponse) {
   // Split the combined message into chat and profile (content) parts
   const { chatMessage, contentMessage } = splitMessage(botResponse);
+  console.log(chatMessage);
+  console.log(contentMessage);
   
   // Using jQuery to select elements instead of querySelector
   const $outputCanvas = $('#output-section .border-dashed');
-  const $outputInfo = $('#output-section .bg-white:last-child p');
   
   // Pass the chat part to the canvas and the profile part to the info section
-  updateCanvas($outputCanvas, chatMessage);
-  updateInfo($outputInfo, contentMessage);
+  updateCanvas($outputCanvas, contentMessage);
+  addMessage(chatMessage, false);
 }
 
 function updateCanvas($outputCanvas, message) {
   if ($outputCanvas.length) {
-      $outputCanvas.html(`<div class="p-4">
-          <p class="font-medium text-gray-700">Processing: "${message}"</p>
-          <div class="mt-2 w-full bg-gray-200 rounded-full h-2.5">
-              <div class="bg-blue-600 h-2.5 rounded-full w-3/4"></div>
-          </div>
-      </div>`);
+      $outputCanvas.html(`${message}`);
   }
 }
 
-function updateInfo($outputInfo, message) {
-  if ($outputInfo.length) {
-      $outputInfo.text(`Analysis complete for: "${message}". Results shown in the canvas above.`);
-  }
+export function addMessage(text, isUser) {
+  const $chatMessages = $('#chat-section .overflow-y-auto');
+  const $messageDiv = $('<div>')
+      .addClass(isUser
+          ? 'bg-gray-100 p-3 rounded-lg max-w-xs ml-auto message-appear'
+          : 'bg-blue-50 p-3 rounded-lg max-w-xs message-appear');
+  
+  const $messageText = $('<p>')
+      .addClass('text-sm text-gray-800')
+      .text(text);
+  
+  $messageDiv.append($messageText);
+  $chatMessages.append($messageDiv);
+  
+  // Scroll to bottom
+  $chatMessages.scrollTop($chatMessages[0].scrollHeight);
 }

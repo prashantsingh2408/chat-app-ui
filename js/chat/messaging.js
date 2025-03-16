@@ -1,5 +1,5 @@
 // Chat messaging functionality
-import { updateOutputSection } from './output-handler.js';
+import { updateOutputSection,addMessage } from './output-handler.js';
 
 async function callChatApi(message) {
     // Add the message as a query parameter
@@ -82,8 +82,7 @@ async function sendMessage(elements) {
         
         // Add bot response from API
         const botResponse = apiResponse.response || apiResponse.message || JSON.stringify(apiResponse);
-        addMessage(botResponse, false);
-        
+
         // Update output section
         updateOutputSection(message, botResponse);
     } catch (error) {
@@ -93,22 +92,4 @@ async function sendMessage(elements) {
         // Add error message
         addMessage("Sorry, I couldn't process your request. Please try again.", false);
     }
-}
-
-export function addMessage(text, isUser) {
-    const $chatMessages = $('#chat-section .overflow-y-auto');
-    const $messageDiv = $('<div>')
-        .addClass(isUser
-            ? 'bg-gray-100 p-3 rounded-lg max-w-xs ml-auto message-appear'
-            : 'bg-blue-50 p-3 rounded-lg max-w-xs message-appear');
-    
-    const $messageText = $('<p>')
-        .addClass('text-sm text-gray-800')
-        .text(text);
-    
-    $messageDiv.append($messageText);
-    $chatMessages.append($messageDiv);
-    
-    // Scroll to bottom
-    $chatMessages.scrollTop($chatMessages[0].scrollHeight);
 }
