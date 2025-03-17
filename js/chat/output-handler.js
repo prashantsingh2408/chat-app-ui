@@ -28,10 +28,15 @@ export function updateOutputSection(message, botResponse) {
   addMessage(chatMessage, false);
 }
 
-function updateCanvas($outputCanvas, message) {
-  if ($outputCanvas.length) {
-      $outputCanvas.html(`${message}`);
-  }
+function updateCanvas($canvas, message) {
+  $canvas.html('');
+
+  const formattedContent = `
+        <p class="text-gray-600 whitespace-pre-wrap break-words">${message}</p>
+  `;
+
+  // Append formatted content to canvas
+  $canvas.append(formattedContent);
 }
 
 export function addMessage(text, isUser) {
