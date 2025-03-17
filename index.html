@@ -48,34 +48,30 @@
           <!-- Logo and Info -->
           <div class="flex items-center space-x-2">
             <a href="#" class="flex items-center">
-              <i class="fas fa-comments text-[var(--accent-color)] text-2xl"></i>
+              <i class="fas fa-comments text-[var(--accent-color)] text-2xl mr-2"></i>
               <span class="font-bold text-xl text-[var(--text-color)]">
-                Chat UI/UX
+                Content Creator (Profile Creator)
               </span>
             </a>
             <!-- Info Icon as a Button -->
-            <button
-              type="button"
-              onclick="togglePopup(event)"
-              class="text-[var(--text-color)] hover:text-[var(--accent-color)] transition duration-300 relative"
-              aria-label="More Info"
-            >
-              <i class="fas fa-info-circle"></i>
-              <div
-                id="info-popup"
-                class="hidden absolute left-0 mt-2 w-64 p-4 bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg shadow-lg z-50"
-              >
+            <div class="relative group">
+              <button type="button"
+                class="text-[var(--text-color)] hover:text-[var(--accent-color)] transition duration-300"
+                aria-label="More Info">
+                <i class="fas fa-info-circle"></i>
+              </button>
+              <div id="info-popup"
+                class="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto 
+                       absolute left-0 mt-2 w-64 p-4 bg-[var(--bg-color)] border border-[var(--border-color)] 
+                       rounded-lg shadow-lg z-50 transition-opacity duration-300">
                 <h3 class="font-bold mb-2">Chat UI/UX Demo</h3>
                 <ul class="text-sm list-disc pl-4">
-                  <li>Responsive</li>
-                  <li>Chatbot section</li>
-                  <li>Content/Canvas Section</li>
-                  <li>Mobile Toggle Button</li>
-                  <li>Compatible with color theming</li>
-                  <li>JS for working chat and content</li>
+                  <li>Create profile for new member in Hackathon</li>
+               
                 </ul>
               </div>
-            </button>
+            </div>
+            
           </div>
 
           <!-- Navigation Menu (Desktop) -->
