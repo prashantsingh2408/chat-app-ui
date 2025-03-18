@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         outputSection: document.getElementById('output-section'),
         mobileToggleBtn: document.getElementById('mobile-toggle'),
         contentWrapper: document.getElementById('content-wrapper'),
-        messageInput: document.querySelector('textarea'),
+        messageInput: document.getElementById('message-input-submit'),
         sendButton: document.querySelector('button[type="submit"]')
     };
 

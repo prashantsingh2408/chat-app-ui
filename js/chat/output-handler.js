@@ -2,28 +2,40 @@
 function splitMessage(message) {
   const chatRegex = /<CHAT>([\s\S]*?)<\/CHAT>/i;
   const contentRegex = /<CONTENT>([\s\S]*?)<\/CONTENT>/i;
-  
+
   const chatMatch = message.match(chatRegex);
   const contentMatch = message.match(contentRegex);
-  
-  const chatMessage = chatMatch[0];
-  const contentMessage = contentMatch[0];
-  
+
+  if (!chatMatch && !contentMatch) {
+    console.log("No chat/content found, returning message:", message);
+    return { chatMessage: message, contentMessage: message };  
+  }
+
+  // Extract only content inside the tags
+  let chatMessage = chatMatch ? chatMatch[1] : null;
+  let contentMessage = contentMatch ? contentMatch[1] : null;
+
+  console.log("Chat Message (before extraction):", chatMessage || "No chat found");
+  console.log("Content Message:", contentMessage || "No content found");
+
+  // Extract only last BOT message if chat exists
+  chatMessage = chatMessage ? extractLastBotMessage(chatMessage) : '';
+
+  console.log("Chat Message (after extraction):", chatMessage || "No bot message found");
+
   return { chatMessage, contentMessage };
 }
 
 // Update output sections by splitting the message and updating each section
 export function updateOutputSection(message, botResponse) {
-  // Split the combined message into chat and profile (content) parts
   var { chatMessage, contentMessage } = splitMessage(botResponse);
-  chatMessage = extractLastBotMessage(chatMessage);
-  console.log("chat message new",chatMessage);
-  console.log(contentMessage);
+  
+  console.log("Final Chat Message:", chatMessage);
+  console.log("Final Content Message:", contentMessage);
   
   // Using jQuery to select elements instead of querySelector
   const $outputCanvas = $('#output-section .border-dashed');
   
-  // Pass the chat part to the canvas and the profile part to the info section
   updateCanvas($outputCanvas, contentMessage);
   addMessage(chatMessage, false);
 }
@@ -35,7 +47,6 @@ function updateCanvas($canvas, message) {
         <p class="text-gray-600 whitespace-pre-wrap break-words">${message}</p>
   `;
 
-  // Append formatted content to canvas
   $canvas.append(formattedContent);
 }
 
@@ -53,7 +64,6 @@ export function addMessage(text, isUser) {
   $messageDiv.append($messageText);
   $chatMessages.append($messageDiv);
   
-  // Scroll to bottom
   $chatMessages.scrollTop($chatMessages[0].scrollHeight);
 }
 
@@ -63,43 +73,19 @@ export function addMessage(text, isUser) {
  * @returns {string} - The last BOT message without the "BOT:" prefix
  */
 function extractLastBotMessage(chatContent) {
-  // First remove any </CHAT> tags that might be included
+  if (!chatContent) return '';
+
   chatContent = chatContent.replace(/<\/CHAT>/g, '');
+
+  console.log("Extracting last BOT message from:", chatContent);
   
-  // Regular expression to find all BOT messages
-  // This matches "BOT:" followed by any text until the next "USER:", "BOT:", or end of string
   const botMessagesRegex = /BOT:\s*(.*?)(?=\s*(?:USER:|BOT:|$))/gs;
   
-  // Find all matches of BOT messages
   const botMessages = [...chatContent.matchAll(botMessagesRegex)];
-  
-  // If any BOT messages were found
-  if (botMessages.length > 0) {
-      // Return the last BOT message (capture group 1) without the "BOT:" prefix, trimmed
-      return cleanBotMessage(botMessages[botMessages.length - 1][1].trim());
-  }
-  
-  // Return empty string if no BOT messages found
-  return '';
-}
 
-/**
- * Extracts and cleans the last BOT message from a chat conversation
- * @param {string} input - Raw input that may contain a BOT message and closing CHAT tags
- * @returns {string} - The cleaned BOT message
- */
-function cleanBotMessage(input) {
-  // First check if this is a BOT message with the closing tag
-  if (input.includes('</CHAT>')) {
-      // Remove the closing </CHAT> tag and any surrounding whitespace
-      return input.replace(/\s*<\/CHAT>\s*$/, '').trim();
+  if (botMessages.length > 0) {
+      return botMessages[botMessages.length - 1][1].trim();
   }
   
-  // If input contains BOT: prefix, extract just the message part
-  if (input.startsWith('BOT:')) {
-      return input.substring(4).trim();
-  }
-  
-  // Otherwise, just return the cleaned input
-  return input.trim();
+  return '';
 }

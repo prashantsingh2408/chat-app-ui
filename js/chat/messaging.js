@@ -5,35 +5,35 @@ import { updateOutputSection,addMessage } from './output-handler.js';
 var response = "";
 
 async function callChatApi(message) {
-    
+    const systemPrompt = localStorage.getItem("systemPrompt") || "";
     message = (response.response || response.message || JSON.stringify(response)) + message;
-    console.log("message new ",message)
-    // Add the message as a query parameter
-    // const apiUrl = `http://127.0.0.1:8000/chat_content_api?user_message=${encodeURIComponent(message)}`;
-    const apiUrl = `https://content-creator-chat-profile-api.vercel.app/chat_content_api?user_message=${encodeURIComponent(message)}`;
-    
+
+    // API URL with query parameters
+    const apiUrl = `https://content-creator-chat-profile-api.vercel.app/chat_content_api?user_message=${encodeURIComponent(message)}&system_prompt=${encodeURIComponent(systemPrompt)}`;
+
     try {
-      console.log('Sending request to API:', apiUrl);
-      
+        console.log('Sending request to API:', apiUrl);
+
         response = await $.ajax({
-        url: apiUrl,
-        type: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        // No data needed since we're using query parameters
-        dataType: 'json'
-      });
-      
-      console.log('API Response:', response);
-      return response;
-      
+            url: apiUrl,
+            type: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            dataType: 'json'
+        });
+
+        console.log('API Response:', response);
+        return response;
+
     } catch (error) {
-      console.error('Error calling chat API:', error);
-      return { response: "Sorry, I couldn't connect to the API. " + error.message };
+        console.error('Error calling chat API:', error);
+        return { response: "Sorry, I couldn't connect to the API. " + error.message };
     }
-  }
+}
+
+
 
 export function initializeMessaging(elements) {
     if (elements.sendButton) {
@@ -88,7 +88,6 @@ async function sendMessage(elements) {
         
         // Add bot response from API
         const botResponse = apiResponse.response || apiResponse.message || JSON.stringify(apiResponse);
-
         // Update output section
         updateOutputSection(message, botResponse);
     } catch (error) {
