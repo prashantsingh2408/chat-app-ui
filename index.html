@@ -591,13 +591,13 @@
           <!-- Chat Section -->
           <div
             id="chat-section"
-            class="w-full lg:w-[70%] border-r border-[var(--border-color)] flex flex-col order-2 lg:order-1"
+            class="w-full  border-r border-[var(--border-color)] flex flex-col order-2 lg:order-1"
           >
             <!-- Header -->
             <div
-              class="flex justify-between items-center p-2 border-b border-[var(--border-color)]"
+              id="chat-header"
+              class="flex justify-between items-center p-2 border-b border-[var(--border-color)] hidden"
             >
-              <span class="font-semibold">Chat</span>
               <button
                 onclick="toggleMaximize('chat')"
                 class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]"
@@ -662,7 +662,7 @@
           <!-- Content Section -->
           <div
             id="output-section"
-            class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col p-4 overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0"
+            class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col p-4 overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0 hidden"
           >
             <!-- Header -->
             <div class="flex justify-between items-center mb-2">

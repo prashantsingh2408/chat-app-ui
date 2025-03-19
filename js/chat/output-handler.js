@@ -43,6 +43,11 @@ export function updateOutputSection(message, botResponse) {
 function updateCanvas($canvas, message) {
   $canvas.html('');
 
+  // remove hidden 
+  $('#output-section').removeClass('hidden');
+  $('#chat-header').removeClass('hidden');
+  
+
   const formattedContent = `
         <p class="text-gray-600 whitespace-pre-wrap break-words">${message}</p>
   `;
