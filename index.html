@@ -713,28 +713,6 @@
     <script src="js/info-popup.js"></script>
     <script src="js/system-prompt.js"></script>
     <!-- JavaScript to Update Text -->
-    <script>
-      function updateText(option) {
-        document.getElementById('selected-option').innerText = 'Content Creator (' + option + ')';
-      }
-
-      function dismissOptions() {
-        document.getElementById("bottom-options").style.display = "none";
-      }
-
-      function toggleContentSection(){
-        var contentSection = document.getElementById('output-section');
-        
-        if (contentSection.classList.contains('hidden')) {
-          contentSection.classList.remove('hidden');
-          contentSection.classList.add('flex');
-          
-        }
-        else {
-          contentSection.classList.remove('flex');
-          contentSection.classList.add('hidden');
-        }
-      }
-    </script>
+    <script src="js/chat/script.js"></script>
   </body>
 </html>
