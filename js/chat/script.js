@@ -1,5 +1,5 @@
 function updateText(option) {
-  document.getElementById('selected-option').innerText = 'Content Creator (' + option + ')';
+  document.getElementById('selected-option').innerText =  option ;
 }
 
 function dismissOptions() {

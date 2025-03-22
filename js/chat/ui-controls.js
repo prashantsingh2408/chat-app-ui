@@ -71,16 +71,16 @@ function createToggleButton(section, $targetSection, $otherSection) {
     }
     
     const $toggleViewBtn = $('<button></button>')
-        .addClass('toggle-view-btn')
-        .data('currentSection', section)
+    .addClass('toggle-view-btn absolute top-2 right-2 w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 bg-[var(--bg-color)] border border-white shadow-md flex items-center justify-center text-black')
+
+    .data('currentSection', section)
         .data('initialSection', section)
-        .html(`Switch to ${section === 'chat' ? 'Output' : 'Chat'}`);
+        .html(`<i class="fas ${section === 'chat' ? 'fa-eye' : 'fa-comment'}"></i>`);
     
     const switchHandler = function() {
         const currentSection = $toggleViewBtn.data('currentSection');
         const initialSection = $toggleViewBtn.data('initialSection');
         
-        // Get the correct sections based on initial maximized section
         const $currentTarget = initialSection === 'chat' ? $targetSection : $otherSection;
         const $currentOther = initialSection === 'chat' ? $otherSection : $targetSection;
         
@@ -90,36 +90,26 @@ function createToggleButton(section, $targetSection, $otherSection) {
             $currentTarget.hide();
             $currentOther.css('display', 'flex');
             $toggleViewBtn.data('currentSection', 'content');
-            $toggleViewBtn.html('Switch to Chat');
+            $toggleViewBtn.html('<i class="fas fa-comment"></i>'); // Chat icon
         } else {
             $currentOther.removeClass('maximized');
             $currentTarget.addClass('maximized');
             $currentOther.hide();
             $currentTarget.css('display', 'flex');
             $toggleViewBtn.data('currentSection', 'chat');
-            $toggleViewBtn.html('Switch to Output');
-        }
-        
-        // Update maximize button icon
-        const $visibleSection = $('.maximized');
-        if ($visibleSection.length) {
-            const $maximizeBtn = $visibleSection.find('.maximize-btn i');
-            if ($maximizeBtn.length) {
-                $maximizeBtn.removeClass('fa-expand').addClass('fa-compress');
-            }
+            $toggleViewBtn.html('<i class="fas fa-eye"></i>'); // Eye icon for output
         }
     };
     
     $toggleViewBtn.data('switchHandler', switchHandler);
     $toggleViewBtn.on('click', switchHandler);
     
-    // Add the button to a fixed position in the document body
     $('body').append($toggleViewBtn);
     
-    // Store initial state
     $targetSection.data('initialMaximized', true);
     $otherSection.data('initialMaximized', false);
 }
+
 
 function resetView($existingToggleBtn, $targetSection, $otherSection) {
     // Remove toggle view button

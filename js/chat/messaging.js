@@ -48,6 +48,7 @@ export function initializeMessaging(elements) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage(elements);
+                dismissOptions();
             }
         });
         

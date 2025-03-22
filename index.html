@@ -45,37 +45,34 @@
     <nav class="bg-[var(--bg-color)] shadow-lg w-full">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
-          <!-- Logo and Info -->
-          <div class="flex items-center space-x-2">
+          <!-- Logo -->
+          <div class="flex items-center ">
             <!-- Dynamic Text Section -->
             <a href="https://content-creator-chat.vercel.app" class="flex items-center">
-              <i class="fas fa-comments text-[var(--accent-color)] text-2xl mr-2"></i>
+              <i class="fas fa-comments text-[var(--accent-color)] text-2xl"></i>
+            </a>
+          </div>
+
+          <div class="flex items-center">
+            <!-- Dynamic Text Section -->
+            <a href="https://content-creator-chat.vercel.app" class="flex items-center">
               <span id="selected-option" class="font-bold text-xl text-[var(--text-color)]">
-                Content Creator (Profile Creator)
+                Profile Creator
               </span>
             </a>
-
-            <!-- Info Icon as a Button -->
-            <div class="relative group">
-              <button type="button"
-                class="text-[var(--text-color)] hover:text-[var(--accent-color)] transition duration-300"
-                aria-label="More Info">
-                <i class="fas fa-info-circle"></i>
-              </button>
-              <div id="info-popup"
-                class="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto 
-                      absolute left-0 mt-2 w-64 p-4 bg-[var(--bg-color)] border border-[var(--border-color)] 
-                      rounded-lg shadow-lg z-50 transition-opacity duration-300">
-                <h3 class="font-bold mb-2">Chat UI/UX Demo</h3>
-                <ul class="text-sm list-disc pl-4">
-                  <li>Create profile for new member in Hackathon</li>
-                </ul>
-              </div>
-            </div>
           </div>
           
           <!-- Center Theme Toggle (Desktop) -->
           <div class="hidden md:flex items-center space-x-3">
+            <div class="relative">
+                <button
+                  onclick="toggleMaximize('chat')"
+                  class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]"
+                  aria-label="Maximize Chat"
+                >
+                 <i class="fas fa-expand"></i>
+                </button>
+            </div>
             <div class="relative">
               <!-- System Prompt Button -->
               <div class="relative">
@@ -361,6 +358,13 @@
           <!-- Mobile Menu Button -->
           <div class="md:hidden">
             <button
+            onclick="toggleMaximize('chat')"
+            class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]"
+            aria-label="Maximize Chat"
+          >
+            <i class="fas fa-expand"></i>
+          </button>
+            <button
               onclick="toggleMenu()"
               class="mobile-menu-btn p-2 rounded-lg transition-all duration-300"
               aria-label="Toggle Mobile Menu"
@@ -584,13 +588,7 @@
               id="chat-header"
               class="flex justify-between items-center p-2 border-b border-[var(--border-color)] hidden"
             >
-              <button
-                onclick="toggleMaximize('chat')"
-                class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]"
-                aria-label="Maximize Chat"
-              >
-                <i class="fas fa-expand"></i>
-              </button>
+           
             </div>
             <!-- Messages -->
             <div class="flex-1 overflow-y-auto p-4 space-y-4">
@@ -639,32 +637,15 @@
               </form>
             </div>
           </div>
-
           <!-- Content Section -->
           <div
             id="output-section"
             class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col p-4 overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0 hidden"
           >
             <!-- Header -->
-            <div class="flex justify-between items-center mb-2">
-              <span class="font-semibold">Content</span>
-              <div>
-              
-                <button
-                  onclick="toggleMaximize('content')"
-                  class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]"
-                  aria-label="Maximize Content"
-                >
-                  <i class="fas fa-expand"></i>
-                </button>
-              </div>
-            </div>
               <!-- Content Wrapper -->
               <div id="content-wrapper" class="space-y-4 transition-all duration-300 h-full">
                 <div class="bg-[var(--content-bg-color)] rounded-lg shadow p-4 mb-4 h-full flex flex-col">
-                  <h2 class="text-lg font-semibold text-[var(--content-text-color)] mb-3">
-                    Content Canvas
-                  </h2>
                   <div
                     class="border-2 border-dashed border-[var(--border-color)] rounded-lg flex-1 overflow-y-auto p-4"
                   >
