@@ -596,16 +596,16 @@
             </div>
 
             <!-- Bottom Options Section (Placed inside chat to avoid overlap) -->
-            <div id="bottom-options" class="p-3 bg-white">
-              <div class="flex flex-wrap gap-3 justify-center p-4 bg-white ">
-                <button onclick="updateText('Profile Creator'); dismissOptions();" class="flex items-center gap-2 px-4 py-2 border rounded-full text-blue-600 text-sm hover:bg-blue-100 transition">
-                  🎭 Profile Creator
+            <div id="bottom-options" class="p-2 bg-white">
+              <div class="flex flex-wrap gap-2 justify-center p-3 bg-white max-w-md mx-auto">
+                <button onclick="updateText('Profile Creator'); dismissOptions();" class="flex items-center gap-2 px-3 py-1 border rounded-full text-blue-600 text-xs md:text-sm hover:bg-blue-100 transition">
+                  🎭 Profile
                 </button>
-                <button onclick="updateText('Blog Generator'); dismissOptions();" class="flex items-center gap-2 px-4 py-2 border rounded-full text-green-600 text-sm hover:bg-green-100 transition">
-                  ✍️ Blog Generator
+                <button onclick="updateText('Blog Generator'); dismissOptions();" class="flex items-center gap-2 px-3 py-1 border rounded-full text-green-600 text-xs md:text-sm hover:bg-green-100 transition">
+                  ✍️ Blog
                 </button>
-                <button onclick="updateText('Social Media Posts'); dismissOptions();" class="flex items-center gap-2 px-4 py-2 border rounded-full text-purple-600 text-sm hover:bg-purple-100 transition">
-                  📱 Social Media Posts
+                <button onclick="updateText('Social Media Posts'); dismissOptions();" class="flex items-center gap-2 px-3 py-1 border rounded-full text-purple-600 text-xs md:text-sm hover:bg-purple-100 transition">
+                  📱 Posts
                 </button>
               </div>
             </div>
@@ -666,7 +666,7 @@
 
     <!-- Chat JS & Info Popup -->
     <script type="module" src="js/chat/chat.js"></script>
-    <script src="js/info-popup.js"></script>
+    <!-- <script src="js/info-popup.js"></script> -->
     <script src="js/system-prompt.js"></script>
     <!-- JavaScript to Update Text -->
     <script src="js/chat/script.js"></script>
