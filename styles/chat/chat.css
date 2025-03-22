@@ -257,12 +257,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.toggle-view-btn:hover {
-    background: var(--accent-dark, #2563eb);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .toggle-view-btn:active {
     transform: translateY(0);
 }
