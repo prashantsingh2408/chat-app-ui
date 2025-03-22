@@ -1,0 +1,72 @@
+.user-profile {
+    max-width: 400px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    text-align: center;
+    margin: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.user-profile:hover {
+    transform: scale(1.03);
+}
+
+.user-profile h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.user-profile ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-profile li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    text-align: left;
+}
+
+.user-profile li:last-child {
+    border-bottom: none;
+}
+
+.user-profile b {
+    color: #555;
+    font-weight: bold;
+}
+
+.user-profile .icon {
+    font-size: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+    color: #007bff;
+}
+
+.user-profile .cta-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.user-profile .cta-button:hover {
+    background: #0056b3;
+}
