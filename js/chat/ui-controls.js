@@ -105,11 +105,20 @@ function createToggleButton(section, $targetSection, $otherSection) {
     $toggleViewBtn.on('click', switchHandler);
     
     $('body').append($toggleViewBtn);
-    
+    createMaximizeToggleButton(section);
     $targetSection.data('initialMaximized', true);
     $otherSection.data('initialMaximized', false);
 }
 
+function createMaximizeToggleButton(section) {
+    console.log(section)
+    const $maximizeBtn = $('<button></button>')
+    .addClass('toggle-view-btn absolute top-2 right-12 w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 bg-[var(--bg-color)] border border-white shadow-md flex items-center justify-center text-black')
+    .attr('onclick', `toggleMaximize('chat')`)
+    .html('<i class="fas fa-expand"></i>');
+    $('body').append($maximizeBtn);
+}
+    
 
 function resetView($existingToggleBtn, $targetSection, $otherSection) {
     // Remove toggle view button
