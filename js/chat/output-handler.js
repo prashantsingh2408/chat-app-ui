@@ -34,7 +34,7 @@ export function updateOutputSection(message, botResponse) {
   console.log("Final Content Message:", contentMessage);
   
   // Using jQuery to select elements instead of querySelector
-  const $outputCanvas = $('#output-section .border-dashed');
+  const $outputCanvas = $('#output-section p');
   
   updateCanvas($outputCanvas, contentMessage);
   addMessage(chatMessage, false);

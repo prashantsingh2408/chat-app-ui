@@ -77,7 +77,7 @@
         top: 0;
         background: var(--output-bg-color, #f9fafb);
         margin: -1rem -1rem 1rem -1rem;
-        padding: 1rem;
+        /* padding: 1rem; */
         z-index: 3;
     }
 }
@@ -110,7 +110,7 @@
     #output-section > div:first-child {
         background: var(--output-bg-color, #f9fafb);
         border-bottom: 1px solid var(--border-color, #e5e7eb);
-        margin-bottom: 1rem;
+        /* margin-bottom: 1rem; */
     }
 
     /* Content area transitions */
