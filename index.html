@@ -90,7 +90,7 @@
               <div class="relative">
                   <button
                     onclick="toggleMaximize('chat')"
-                    class="maximize-btn p-2 rounded hover:bg-[var(--accent-light)]"
+                    class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
                     aria-label="Maximize Chat"
                   >
                    <i class="fas fa-expand"></i>
@@ -595,12 +595,12 @@
       </nav>
 
       <!-- Chat & Content Section -->
-      <section class="bg-[var(--bg-color)] text-[var(--text-color)]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section class="bg-[var(--bg-color)] text-[var(--text-color)] w-full">
+        <div class="w-full h-[calc(100vh-4rem)]"> <!-- Changed from max-w-7xl and removed padding -->
           <div
             id="chat-container"
-            class="flex flex-col lg:flex-row h-[36rem] bg-[var(--content-bg-color)] rounded-lg shadow-xl overflow-hidden"
-          >
+            class="flex flex-col lg:flex-row h-full bg-[var(--content-bg-color)] overflow-hidden"
+          > <!-- Removed rounded-lg and shadow-xl -->
             <!-- Chat Section -->
             <div
               id="chat-section"
@@ -629,30 +629,21 @@
                 </div>
               </div>
 
-              <!-- Input -->
-              <div class="p-4">
+              <!-- Input Section - Removed border -->
+              <div class="p-4 bg-[var(--bg-color)]">
                 <form class="flex items-end gap-3" onsubmit="return false;">
                   <textarea
                     id="message-input-submit"
-                    class="flex-1 rounded-2xl p-3 focus:ring-2 focus:ring-[var(--accent-color)] focus:outline-none resize-none bg-[var(--bg-color)]"
+                    class="flex-1 rounded-2xl p-3 bg-[var(--content-bg-color)] focus:ring-2 focus:ring-[var(--accent-color)] focus:outline-none resize-none"
                     rows="1"
                     placeholder="Type your message here..."
                   ></textarea>
                   <button
                     type="submit"
-                    class="bg-[var(--accent-color)] text-white p-3 rounded-full hover:bg-[var(--accent-dark)] transition-colors duration-200 flex items-center justify-center"
+                    class="bg-[var(--accent-color)] text-white p-3 rounded-full hover:bg-[var(--accent-dark)] transition-colors duration-200"
                     aria-label="Send Message"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
-                      />
-                    </svg>
+                    <i class="fas fa-paper-plane"></i>
                   </button>
                 </form>
               </div>
@@ -660,21 +651,19 @@
             <!-- Content Section -->
             <div
               id="output-section"
-              class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col p-4 overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0 hidden"
-            >
-              <!-- Header -->
-                <!-- Content Wrapper -->
-                <div id="content-wrapper" class="space-y-4 transition-all duration-300 h-full">
-                  <div class="bg-[var(--content-bg-color)] rounded-lg  h-full flex flex-col">
-                    <div
-                      class="flex-1 overflow-y-auto"
-                    >
-                      <p class="text-[var(--content-placeholder-color)]">
-                        Output will appear here
-                      </p>
-                    </div>
+              class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0 hidden"
+            > <!-- Added border-l -->
+              <div id="content-wrapper" class="h-full p-4">
+                <div class="bg-[var(--content-bg-color)] rounded-lg  h-full flex flex-col">
+                  <div
+                    class="flex-1 overflow-y-auto"
+                  >
+                    <p class="text-[var(--content-placeholder-color)]">
+                      Output will appear here
+                    </p>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
