@@ -643,21 +643,81 @@
             </div>
             <!-- Content Section -->
             <div
-              id="output-section"
-              class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0 hidden"
-            > <!-- Added border-l -->
-              <div id="content-wrapper" class="h-full p-4">
-                <div class="bg-[var(--content-bg-color)] rounded-lg  h-full flex flex-col">
+            id="output-section"
+            class="w-full lg:w-[30%] bg-[var(--output-bg-color)] flex flex-col overflow-y-auto relative transition-all duration-300 ease-in-out order-1 lg:order-2 min-h-[200px] lg:min-h-0 hidden border-l"
+          >
+            <div id="content-wrapper" class="h-full p-4">
+              <div class="bg-[var(--content-bg-color)] rounded-lg h-full flex flex-col">
+                <div id="output-display" class="flex-1 overflow-y-auto">
+                  <p class="text-[var(--content-placeholder-color)]">Output will appear here</p>
+                </div>
+          
+                <div class="p-4 flex gap-4 relative">
+                  <!-- More Options Menu (Above the Button) -->
                   <div
-                    class="flex-1 overflow-y-auto"
+                    id="options-menu"
+                    class="absolute right-0 bottom-14 bg-[var(--content-bg-color)] border border-[var(--text-color)] shadow-md rounded-lg p-2 hidden"
                   >
-                    <p class="text-[var(--content-placeholder-color)]">
-                      Output will appear here
-                    </p>
+                    <button class="block px-4 py-2 text-sm hover:bg-gray-200 w-full text-left" onclick="alert('View Details')">View Details</button>
+                    <button class="block px-4 py-2 text-sm hover:bg-gray-200 w-full text-left" onclick="alert('Duplicate')">Duplicate</button>
+                    <button class="block px-4 py-2 text-sm hover:bg-red-500 hover:text-white w-full text-left" onclick="alert('Delete')">Delete</button>
                   </div>
+          
+                  <!-- Link Icon Button -->
+                  <button
+                    onclick="window.location.href='your-link-here'"
+                    class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)"
+                    aria-label="Open Link"
+                  >
+                    <i class="fas fa-link text-xl text-[var(--text-color)]"></i>
+                  </button>
+          
+                  <!-- Download Icon Button -->
+                  <a
+                    href="your-file-url-here"
+                    download
+                    class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)]"
+                    aria-label="Download File"
+                  >
+                    <i class="fas fa-download text-xl text-[var(--text-color)]"></i>
+                  </a>
+          
+                  <!-- Edit Icon Button -->
+                  <button
+                    onclick="editFunction()"
+                    class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)]"
+                    aria-label="Edit"
+                  >
+                    <i class="fas fa-edit text-xl text-[var(--text-color)]"></i>
+                  </button>
+          
+                  <!-- More Options Icon Button -->
+                  <button
+                    onclick="toggleOptionsMenu()"
+                    class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)]"
+                    aria-label="More Options"
+                  >
+                    <i class="fas fa-ellipsis-h text-xl text-[var(--text-color)]"></i>
+                  </button>
+          
+                  <!-- Toggle Code/Render Button -->
+                  <button
+                    onclick="toggleCodeRender()"
+                    id="toggle-code-btn"
+                    class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-110 flex items-center justify-center bg-[var(--bg-color)] border-2 shadow-md"
+                    style="border-color: var(--text-color)]"
+                    aria-label="Toggle Code/Render"
+                  >
+                    <i class="fas fa-code text-xl text-[var(--text-color)]"></i>
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </section>
@@ -668,6 +728,7 @@
     <script type="module" src="js/chat/chat.js"></script>
     <script src="js/system-prompt.js" defer></script>
     <script src="js/chat/script.js" defer></script>
+    <script src="js/chat/content-button.js" defer></script>
 
     <!-- Hide loading screen once everything is loaded -->
     <script>
