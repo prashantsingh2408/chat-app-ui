@@ -7,10 +7,11 @@ var response = "";
 async function callChatApi(message) {
     const systemPrompt = localStorage.getItem("systemPrompt") || "";
     message = (response.response || response.message || JSON.stringify(response)) + message;
+        const base = `https://chat-app-wise-move-api.vercel.app/`;
+        // const base = `https://content-creator-chat-profile-api.vercel.app/`;
+        const apiUrl = `${base}chat_content_api?user_message=${encodeURIComponent(message)}&system_prompt=${encodeURIComponent(systemPrompt)}`;
 
-    // API URL with query parameters
-    const apiUrl = `https://content-creator-chat-profile-api.vercel.app/chat_content_api?user_message=${encodeURIComponent(message)}&system_prompt=${encodeURIComponent(systemPrompt)}`;
-
+        console.log('API URL:', apiUrl);
     try {
         console.log('Sending request to API:', apiUrl);
 
